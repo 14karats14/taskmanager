@@ -12,27 +12,20 @@
 */
 use \Illuminate\Http\Request;
 
-    Route::get('profile', function () {
-    // Только аутентифицированные пользователи могут зайти...
-    })->middleware('auth');
+    Route::group(['middleware' => 'auth'], function () {
+
+      Route::get('/', 'TaskController@index');
+      Route::post('/task/', 'TaskController@store')->name('task.store');
+      Route::post('/check/{task}', 'TaskController@check')->name('task.check');
+      Route::delete('/{task}', 'TaskController@destroy')->name('task.delete');
 
 
+    Route::group(['middleware' => 'admin'], function () {
 
-    Route::get('admin/user/',['middleware' => ['auth', 'admin'], 'uses' => 'admin@request'])->name('admin.right');
-
-    Route::get('admin/user/{user}',['middleware' => ['auth', 'admin'], 'uses' => 'admin@user'])->name('admin.users');
-
-
-
-    Route::get('request',['middleware' => 'auth', 'uses' => 'PostController@request'])->name('task.add');
-
-    Route::delete('/{task}', ['middleware' => 'auth', 'uses' =>'PostController@destroy'])->name('task.delete');
-
-    Route::post('/check/{task}', ['middleware' => 'auth', 'uses' =>'PostController@check_box'])->name('task.status');
-
-    Route::get('/',['middleware' => 'auth', 'uses' =>'PostController@view_all']);
-
-
+      Route::get('admin/user', 'AdminController@users')->name('admin.users');
+      Route::get('admin/user/{user}', 'AdminController@user')->name('admin.user');
+    });
+    });
 
     Auth::routes();
 

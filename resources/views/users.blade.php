@@ -11,15 +11,7 @@
 
     <table>
 
-        <tr>
-            <td>
-                <div>{{user()->name}}</div>
-            </td>
-
-            <td>
-                <form action={{ route('task.status', [$task]) }}
-            </td>
-        </tr>
+       
 
     </table>
 
