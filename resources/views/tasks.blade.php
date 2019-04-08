@@ -26,7 +26,7 @@
             <!-- Кнопка выполнено , не выполнено -->
           <td>
 
-              <form action={{ route('task.status', [$task]) }} method="POST">
+              <form action={{ route('task.check', [$task]) }} method="POST">
                   {{ csrf_field() }}
                   <button type="submit">check</button>
 
@@ -50,7 +50,7 @@
 <br>
 @endforeach
 </table>
-<form action={{ route('task.add') }}>
+<form action={{ route('task.store') }}>
     {{csrf_field()}}
 
     <input type="text" name="name">

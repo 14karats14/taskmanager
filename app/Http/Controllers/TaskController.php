@@ -20,6 +20,12 @@ class TaskController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+        auth()->user()->tasks()->create(['name' => $request->name]);
+        return redirect('/');
+    }
+
     public function destroy(Task $task)
     {
         $task->delete();
