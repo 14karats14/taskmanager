@@ -50,8 +50,8 @@
 <br>
 @endforeach
 </table>
-<form action={{ route('task.store') }}>
-    {{csrf_field()}}
+<form action={{ route('task.store')}}method="POST">
+    {{ csrf_field() }}
 
     <input type="text" name="name">
     <button type="submit">submit</button>
