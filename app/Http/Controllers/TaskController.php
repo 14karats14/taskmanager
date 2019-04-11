@@ -8,12 +8,16 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->user()->admin_status == 1) {
             return redirect(route('admin.users'));
         }
         $tasks =  auth()->user()->tasks;
+
+        if ($request->sort == 'asc') {
+            $tasks->orderBy('name');
+        }
         return view('tasks', [
             'user' => auth()->user(),
             'tasks' => $tasks

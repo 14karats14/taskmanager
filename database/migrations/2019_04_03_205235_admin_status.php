@@ -14,7 +14,7 @@ class AdminStatus extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('admin_status');
+            $table->integer('admin_status')->default(0);
         });
     }
 

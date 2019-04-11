@@ -1,18 +1,19 @@
-<!DOCTYPE html>
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/sass/app.css') }}" />
-<html lang="en">
-<head>
-    <title>Admin config</title>
-
-</head>
-<body>
-
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+@extends('layouts.app')
+@section('content')
 
     <table>
+    @foreach($users as $user )
+        @if(!$user->admin_status)
+        <tr>
+            <!--имя пользователя-->
+            <td class="table-text">
+                <a href="{{route("admin.user",['user' => $user])}}">{{ $user->name }}</a>
 
+            </td>
 
-
+        </tr>
+        @endif
+    @endforeach
     </table>
 
-</body>
+@endsection

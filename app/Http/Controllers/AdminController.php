@@ -20,10 +20,9 @@ class adminController extends Controller
 
     public function user(Request $request, User $user)
     {
-
         return view('tasks',[
             'tasks' => $user->tasks,
-            'is_admin' => true
+            'user' => $user
         ]);
 
     }

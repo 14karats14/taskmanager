@@ -1,61 +1,63 @@
-<!DOCTYPE html>
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/sass/app.css') }}" />
-<html lang="en">
-<head>
-    <title>Task manager</title>
+@extends('layouts.app')
 
-</head>
-<body>
-<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 <!-- Имя пользователя -->
+@section('content')
 
-        <td class="table-text">
-            <div>{{auth()->user()->name}}</div>
-        </td>
-
-<table>
-    @foreach($tasks as $task)
-        <tr>
-            <!-- Имя задачи -->
-            <td class="table-text">
-                <div>{{ $task->name }}</div>
-            </td>
-            <td class="table-text">
-                <div>{{ $task->is_active }}</div>
-            </td>
-            <!-- Кнопка выполнено , не выполнено -->
-          <td>
-
-              <form action={{ route('task.check', [$task]) }} method="POST">
-                  {{ csrf_field() }}
-                  <button type="submit">check</button>
+    <div>{{$user->name}}</div>
 
 
-</form>
+    <table>
+        @foreach($tasks as $task)
+            <tr>
+                <!-- Имя задачи -->
 
-</td>
+                <td class="table-text">
+                    @if(!$task->is_active)
+                        <div><s>{{ $task->name }}</s></div>
+                    @else
+                        <div>{{ $task->name }}</div>
+                    @endif
+                </td>
+            @if(auth()->user()->admin_status == 0)
+                <!-- Кнопка выполнено , не выполнено -->
 
-<!-- Кнопка Удалить -->
-<td>
-    <form action={{ route('task.delete', [$task]) }} method="POST">
-        {{ csrf_field() }}
-        {{ method_field('DELETE') }}
+                    <td>
 
-        <button type="submit" class="btn btn-danger">
-            <i class="fa fa-btn fa-trash"></i>Delete
-        </button>
-    </form>
-</td>
-</tr>
-<br>
-@endforeach
-</table>
-<form action={{ route('task.store')}}method="POST">
-    {{ csrf_field() }}
+                        <form action={{ route('task.check', [$task]) }} method="POST">
+                            {{ csrf_field() }}
+                            <button type="submit">check</button>
 
-    <input type="text" name="name">
-    <button type="submit">submit</button>
 
-</form>
-@yield('content')
-</body>
+                        </form>
+
+                    </td>
+
+                    <!-- Кнопка Удалить -->
+                    <td>
+                        <form action={{ route('task.delete', [$task]) }} method="POST">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa fa-btn fa-trash"></i>Delete
+                            </button>
+                        </form>
+                    </td>
+                @endif
+            </tr>
+            <br>
+        @endforeach
+    </table>
+    @if(auth()->user()->admin_status == 0)
+        <form action="{{ route('task.store')}}" method="POST">
+            {{ csrf_field() }}
+
+            <input type="text" name="name">
+            <button type="submit">submit</button>
+
+        </form>
+        @else
+        <a href="{{route('admin.users')}}"><button>{{trans('button.back')}}</button></a>
+    @endif
+@endsection
+
